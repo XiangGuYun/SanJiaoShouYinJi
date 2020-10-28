@@ -1,6 +1,7 @@
-package android_serialport_api.cardwriteread.kt
+package com.yp.baselib.utils
 
 import android.content.Context
+import com.yp.baselib.base.BaseApplication
 
 /**
  * SharedPreferences工具

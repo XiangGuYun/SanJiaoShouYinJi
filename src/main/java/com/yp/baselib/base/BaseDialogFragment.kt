@@ -2,7 +2,11 @@ package com.yp.baselib.base
 
 import android.app.Activity
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentActivity
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -13,23 +17,33 @@ import com.kotlinlib.common.StringEx
 import com.kotlinlib.view.base.ViewEx
 import com.yp.baselib.annotation.Bus
 import com.yp.baselib.annotation.LayoutId
+import com.yp.baselib.ex.BaseEx
 import com.yp.baselib.ex.ContextEx
 import com.yp.baselib.utils.DensityUtils
-import me.yokeyword.fragmentation.SupportFragment
 import org.greenrobot.eventbus.EventBus
+import java.util.*
 
 /**
- * Fragment的基类
+ * DialogFragment的基类
  */
-abstract class BaseFragment : SupportFragment(), ViewEx, ContextEx, StringEx {
+abstract class BaseDialogFragment : DialogFragment(), BaseEx {
 
     companion object {
-        lateinit var gson:Gson
+        lateinit var gson: Gson
     }
 
     private var startEventBus = false
     private var viewInject: LayoutId? = null
-    lateinit var fragView:View
+    lateinit var fragView: View
+
+    fun show(activity: FragmentActivity) {
+        if (!isAdded) {
+            show(activity.supportFragmentManager, javaClass.simpleName)
+        } else {
+            activity.supportFragmentManager.beginTransaction().remove(this).commitNow()
+            show(activity.supportFragmentManager, javaClass.simpleName)
+        }
+    }
 
     /**
      * 获取托管Activity并指定具体类型
@@ -45,23 +59,47 @@ abstract class BaseFragment : SupportFragment(), ViewEx, ContextEx, StringEx {
         return activity as BaseActivity
     }
 
+    override fun onResume() {
+        super.onResume()
+        dialog.window?.apply {
+            setLayout(setDialogSize().first, setDialogSize().second)
+            if (isTranslate()) setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        }
+        dialog.setCanceledOnTouchOutside(isCanceledOnTouchOutside())
+        dialog.setOnShowListener { onShowListener()?.invoke() }
+        dialog.setOnDismissListener { onDismissListener()?.invoke() }
+    }
+
+    /**
+     * 设置对话框的宽高
+     */
+    abstract fun setDialogSize(): Pair<Int, Int>
+
+    protected fun isTranslate() = false
+
+    fun isCanceledOnTouchOutside() = true
+
+    protected fun onShowListener(): (() -> Unit)? = null
+
+    protected fun onDismissListener(): (() -> Unit)? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val annotations = this::class.annotations
-        annotations.forEachIndexed { _, it->
-            when(it.annotationClass){
-                LayoutId::class->{
+        annotations.forEachIndexed { _, it ->
+            when (it.annotationClass) {
+                LayoutId::class -> {
                     viewInject = it as LayoutId
                 }
-                Bus::class->{
+                Bus::class -> {
                     startEventBus = true
                     EventBus.getDefault().register(this)
                 }
             }
         }
-        fragView = if(viewInject!=null){
-            inflater.inflate(viewInject!!.id,container,false)
-        }else{
-            inflater.inflate(getFragLayoutId(),container,false)
+        fragView = if (viewInject != null) {
+            inflater.inflate(viewInject!!.id, container, false)
+        } else {
+            inflater.inflate(getFragLayoutId(), container, false)
         }
         gson = BaseActivity.gson
         return fragView
@@ -87,7 +125,7 @@ abstract class BaseFragment : SupportFragment(), ViewEx, ContextEx, StringEx {
      * @param any Any
      * @return String
      */
-    fun jsonStr(any: Any):String{
+    fun jsonStr(any: Any): String {
         return gson.toJson(any)
     }
 
@@ -95,14 +133,14 @@ abstract class BaseFragment : SupportFragment(), ViewEx, ContextEx, StringEx {
      * 土司提示
      * @param isLong 是否显示更长时间
      */
-    fun Any.toast(isLong: Boolean=false){
-        if(isLong)
-            Toast.makeText(activity,this.toString(),
+    fun Any.toast(isLong: Boolean = false) {
+        if (isLong)
+            Toast.makeText(activity, this.toString(),
                     Toast.LENGTH_SHORT).apply {
                 setGravity(Gravity.CENTER, 0, 0)
             }.show()
         else
-            Toast.makeText(activity,this.toString(),
+            Toast.makeText(activity, this.toString(),
                     Toast.LENGTH_SHORT).apply {
                 setGravity(Gravity.CENTER, 0, 0)
             }.show()
@@ -111,34 +149,49 @@ abstract class BaseFragment : SupportFragment(), ViewEx, ContextEx, StringEx {
     /**
      * 尺寸单位转换
      */
-    fun Number.px2dp():Int{
-        return DensityUtils.px2dip(this@BaseFragment.activity as Context, this.toFloat())
+    fun Number.px2dp(): Int {
+        return DensityUtils.px2dip(this@BaseDialogFragment.activity as Context, this.toFloat())
     }
 
-    fun Number.dp2px():Int{
-        return DensityUtils.dip2px(this@BaseFragment.activity as Context, this.toFloat())
+    fun Number.dp2px(): Int {
+        return DensityUtils.dip2px(this@BaseDialogFragment.activity as Context, this.toFloat())
     }
 
-    val Number.dp get() = DensityUtils.dip2px(this@BaseFragment.activity as Context, this.toFloat())
+    val Number.dp get() = DensityUtils.dip2px(this@BaseDialogFragment.activity as Context, this.toFloat())
 
-    fun Number.sp():Int{
-        return DensityUtils.px2sp(this@BaseFragment.activity as Context, this.toFloat())
-    }
-
-    val Number.sp get() = DensityUtils.sp2px(this@BaseFragment.activity as Context, this.toFloat())
-
-    /**
-     * 跳转新的Activity
-     */
-    inline fun <reified T: Activity> goTo(vararg pairs:Pair<String,Any>, anims:Pair<Int, Int> = 0 to 0){
-        getAct().goTo<T>(*pairs, anims = anims)
-    }
+    val Number.sp get() = DensityUtils.sp2px(this@BaseDialogFragment.activity as Context, this.toFloat())
 
     override fun onDestroy() {
         super.onDestroy()
-        if(startEventBus){
+        if (startEventBus) {
             EventBus.getDefault().unregister(this)
         }
     }
 
 }
+
+/*
+补充
+
+设置DialogFragment从底部弹出，并且弹出动画为向上滑出，消失动画为向下滑出
+
+WindowManager.LayoutParams params = getDialog().getWindow()
+        .getAttributes();
+params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
+params.windowAnimations = R.style.bottomSheet_animation;
+getDialog().getWindow().setAttributes(params);
+
+ <style name="bottomSheet_animation" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/slide_in_bottom</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_bottom</item>
+ </style>
+
+ <?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <translate
+        android:duration="300"
+        android:fromYDelta="100.0%p"
+        android:toYDelta="0.0" />
+</set>
+ */
