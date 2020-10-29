@@ -65,7 +65,6 @@ public class MyApplication extends Application {
         }
         //初始化语音
         SoundUtils.init(mApp);
-        ExceptionHelper.getInstance().init();
     }
 
     public static AppDBManager getAppDBManager() {

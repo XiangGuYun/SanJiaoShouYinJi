@@ -1,2 +1,3 @@
+include ':facelibrary'
 include ':baselib'
-include ':app', ':facelibrary'
+include ':app'

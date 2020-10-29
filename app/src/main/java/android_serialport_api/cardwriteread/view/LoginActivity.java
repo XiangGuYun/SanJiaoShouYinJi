@@ -41,7 +41,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        checkBluetoothPermission();
         new RxPermissions(this).requestEachCombined(Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.NFC,
                 Manifest.permission.BIND_NFC_SERVICE)
@@ -54,14 +53,6 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         initViceScreen();
         //检测是否需要自动登陆
         presenter.autoLogin(this);
-
-//        findViewById(R.id.ivLogo).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(LoginActivity.this, JieDanLoginActivity.class));
-//            }
-//        });
-
     }
 
 
