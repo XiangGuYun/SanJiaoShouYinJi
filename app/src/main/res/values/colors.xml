@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#ffffff</color>
+    <color name="colorAccent">#4678ff</color>
+
+    <color name="blue1">#4678ff</color>
+    <color name="blue2">#6495ED</color>
+    <color name="blue3">#B0C4DE</color>
+    <color name="DoderBlue">#1E90FF</color>
+    <color name="while1">#ffffff</color>
+    <color name="while2">#f1f1f1</color>
+    <color name="gray1">#cccccc</color>
+    <color name="red1">#ff0000</color>
+    <color name="red2">#FF4500</color>
+    <color name="black1">#000000</color>
+
+    <color name="white">#fff</color>
+    <color name="color_666">#666</color>
+    <color name="color_cash">#F99100</color>
+
+    <color name="pop_select_text">#E1584E</color>
+    <color name="press_change">#FF8C69</color>
+
+    <color name="transparent">#00000000</color>
+
+    <color name="black">#000000</color>
+    <color name="red">#FF0000</color>
+    <!-- activity灰色背景 -->
+    <color name="bg_activity_gray">#f4f4f4</color>
+
+    <!--外面圈背景颜色-->
+    <!--外面圈背景颜色-->
+    <!-- 主题颜色 -->
+    <!-- 淡蓝 -->
+    <color name="ligth_bule">#1E90FF</color>
+    <color name="black_d">@color/color_666</color>
+    <color name="money_color">#FB6F08</color>
+    <color name="stroke">#e5e5e5</color>
+    <color name="green_deep">#548B54</color>
+    <color name="text_gray">#707070</color>
+
+</resources>

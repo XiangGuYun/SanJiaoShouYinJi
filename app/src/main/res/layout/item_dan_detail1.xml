@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="#dedede"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="促销优惠"
+        android:textSize="18sp"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/black"
+        android:layout_marginLeft="20dp"/>
+
+    <TextView
+        android:id="@+id/tvYouHui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="￥0.00"
+        android:textSize="18sp"
+        android:layout_gravity="center_vertical|right"
+        android:textColor="@color/black"
+        android:layout_marginRight="20dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_gravity="bottom"
+        android:background="#dedede"/>
+</FrameLayout>

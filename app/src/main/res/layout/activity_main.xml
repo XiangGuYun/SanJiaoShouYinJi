@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/shopname"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_weight="1"
+                    android:gravity="center|start"
+                    android:text="菜品测试食堂"
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_15"
+                    android:textStyle="bold"></TextView>
+
+                <LinearLayout
+                    android:id="@+id/system_out"
+                    android:layout_width="@dimen/dp_60"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:layout_marginBottom="@dimen/dp_10"
+                    android:background="@drawable/system_out"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_15"
+                        android:layout_height="@dimen/dp_15"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:src="@mipmap/icon_quit"></ImageView>
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|start"
+                        android:text="退出"
+                        android:textSize="@dimen/sp_12"></TextView>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_1"
+                android:background="@color/while2"></TextView>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/orderdata"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/dp_5"></android.support.v7.widget.RecyclerView>
+
+                <TextView
+                    android:id="@+id/order_placeholder"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:text="暂无数据"
+                    android:textColor="@color/black1"
+                    android:textSize="@dimen/sp_16"
+                    android:visibility="gone"></TextView>
+            </FrameLayout>
+
+            <Button
+                android:id="@+id/order_statistical"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:layout_marginLeft="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:layout_marginRight="@dimen/dp_40"
+                android:layout_marginBottom="@dimen/dp_20"
+                android:background="@drawable/login_button"
+                android:gravity="center"
+                android:text="订单统计"
+                android:textColor="@color/while1"
+                android:textSize="@dimen/sp_14"></Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp_10"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_30"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/vip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="left|center"
+                        android:text="会员号:xxxxxxxxxx"
+                        android:textColor="@color/black1"
+                        android:textSize="@dimen/sp_15"></TextView>
+
+                    <Button
+                        android:id="@+id/setting_cashier"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:background="@drawable/login_button"
+                        android:text="设置固定收银"
+                        android:textColor="@color/while1"
+                        android:textSize="@dimen/sp_11"></Button>
+
+                    <Button
+                        android:id="@+id/face_recognition"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:background="@drawable/login_button"
+                        android:text="关闭人脸识别"
+                        android:textColor="@color/while1"
+                        android:textSize="@dimen/sp_11"></Button>
+
+                    <Button
+                        android:id="@+id/face_facemanage"
+                        android:layout_width="@dimen/dp_80"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:background="@drawable/login_button"
+                        android:text="人脸管理"
+                        android:textColor="@color/while1"
+                        android:textSize="@dimen/sp_11"
+                        android:visibility="gone"></Button>
+                </LinearLayout>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_50"
+                android:orientation="horizontal">
+
+                <com.kproduce.roundcorners.RoundFrameLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@color/gray1"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    app:rRadius="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_nfc"></ImageView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:text="快速收银"
+                        android:textColor="@color/black1"
+                        android:textSize="@dimen/sp_12"></TextView>
+                </com.kproduce.roundcorners.RoundFrameLayout>
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <com.kproduce.roundcorners.RoundFrameLayout
+                    android:id="@+id/viewMeal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#eeeeee"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    app:rRadius="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_cash"></ImageView>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:text="点餐模式"
+                        android:textColor="@color/black1"
+                        android:textSize="@dimen/sp_12"></TextView>
+                </com.kproduce.roundcorners.RoundFrameLayout>
+
+                <View
+                    android:layout_width="20dp"
+                    android:layout_height="match_parent" />
+
+                <com.kproduce.roundcorners.RoundFrameLayout
+                    android:id="@+id/viewJieDan"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#eeeeee"
+                    android:paddingTop="@dimen/dp_5"
+                    android:paddingBottom="@dimen/dp_5"
+                    app:rRadius="@dimen/dp_10">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_cash"></ImageView>
+
+                    <TextView
+                        android:id="@+id/btnJieDan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:gravity="center"
+                        android:text="接单模式"
+                        android:textColor="@color/black1"
+                        android:textSize="@dimen/sp_12"></TextView>
+                </com.kproduce.roundcorners.RoundFrameLayout>
+            </LinearLayout>
+
+            <include layout="@layout/layout_calculator"></include>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <include layout="@layout/paydialog" />
+
+    <include layout="@layout/activity_meal" />
+
+    <include layout="@layout/paydialog1" />
+
+
+    <!--这里的值不能设置为空或者设置为gone 否则将无法回调-->
+    <android_serialport_api.cardwriteread.baiduface.baiducamera.AutoTexturePreviewView
+        android:id="@+id/draw_detect_face_view"
+        android:layout_width="0.1dp"
+        android:layout_height="0.1dp"
+        android:layout_gravity="left|top" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/flContainer"/>
+
+</FrameLayout>

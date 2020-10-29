@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    <TextView
+        android:id="@+id/orderdatadialog_item_t1"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:minWidth="@dimen/dp_66"
+        android:textColor="@color/black1"
+        android:text="时间"
+        android:textSize="@dimen/sp_12">
+    </TextView>
+    <TextView
+        android:id="@+id/orderdatadialog_item_t2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:minWidth="@dimen/dp_66"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/black1"
+        android:text="订单数"
+        android:textSize="@dimen/sp_12">
+    </TextView>
+    <TextView
+        android:id="@+id/orderdatadialog_item_t3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:minWidth="@dimen/dp_66"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:textColor="@color/black1"
+        android:text="金钱"
+        android:textSize="@dimen/sp_12">
+    </TextView>
+</LinearLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/prompt_item_b1"
+        android:layout_marginRight="@dimen/dp_3"
+        android:minHeight="@dimen/dp_25"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        android:background="@drawable/prompt_item"
+        android:gravity="center"
+        android:textSize="@dimen/sp_16"
+        android:textColor="@color/while1"
+        android:layout_width="@dimen/dp_100"
+        android:layout_height="match_parent">
+    </Button>
+
+</LinearLayout>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:minHeight="@dimen/dp_40"
+    android:padding="@dimen/dp_5"
+    android:background="@drawable/subbranch_item"
+    android:id="@+id/subbranch_item_group"
+    android:orientation="horizontal">
+
+    <com.kproduce.roundcorners.RoundTextView
+        app:rRadius="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_2"
+        android:layout_marginBottom="@dimen/dp_2"
+        android:background="@color/blue1"
+        android:layout_width="@dimen/dp_5"
+        android:layout_height="match_parent">
+    </com.kproduce.roundcorners.RoundTextView>
+
+    <TextView
+        android:id="@+id/subbranch_item_t1"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="ID">
+    </TextView>
+
+    <TextView
+        android:id="@+id/subbranch_item_t2"
+        android:layout_width="0dp"
+        android:layout_weight="4"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="NAME">
+    </TextView>
+
+</LinearLayout>

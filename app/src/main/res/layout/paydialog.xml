@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.kproduce.roundcorners.RoundFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:clickable="true"
+    android:id="@+id/paydialog_layout"
+    android:visibility="gone"
+    android:background="#70f1f1f1">
+
+    <com.kproduce.roundcorners.RoundLinearLayout
+        android:layout_width="@dimen/dp_220"
+        android:layout_height="@dimen/dp_180"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:background="@color/while1"
+        app:rRadius="@dimen/dp_10">
+        <TextView
+            android:text="线上支付"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:textSize="@dimen/sp_17"
+            android:background="@color/blue1"
+            android:textColor="@color/while1"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_40">
+        </TextView>
+
+        <TextView
+            android:id="@+id/paydialog_money"
+            android:textSize="@dimen/sp_15"
+            android:text="应付:00"
+            android:textColor="@color/black1"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+        </TextView>
+
+        <TextView
+            android:id="@+id/paydialog_details"
+            android:textSize="@dimen/sp_12"
+            android:text="等待支付..."
+            android:textColor="@color/red2"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30">
+        </TextView>
+
+        <Button
+            android:id="@+id/paydialog_cancel"
+            android:layout_margin="@dimen/dp_20"
+            android:textSize="@dimen/sp_15"
+            android:text="取消"
+            android:textColor="@color/while1"
+            android:gravity="center"
+            android:background="@drawable/paydialog_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_30">
+        </Button>
+    </com.kproduce.roundcorners.RoundLinearLayout>
+
+</com.kproduce.roundcorners.RoundFrameLayout>

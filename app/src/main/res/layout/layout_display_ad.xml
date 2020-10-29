@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/ad_details"
+                android:textSize="@dimen/sp_20"
+                android:gravity="center"
+                android:text="广告位"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </TextView>
+            <ImageView
+                android:id="@+id/ad_details1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/ad"/>
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp_25"
+                android:textColor="@color/blue1"
+                android:text="云澎科技"
+                android:padding="5dp" />
+            <LinearLayout
+                android:id="@+id/llTest"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:background="#000000"
+                android:padding="10dp"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:text="人脸检测数据调试"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="是否是人脸支付："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv0"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="是否是支付状态："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv0_1"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="当前是否检测到人脸："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv1"/>
+                <TextView
+                    android:textColor="@color/white"
+                    android:text="检测到的人脸相似度是："
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv2"/>
+            </LinearLayout>
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1.5"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <ImageView
+                android:id="@+id/img"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"/>
+
+            <android_serialport_api.cardwriteread.baiduface.baiducamera.AutoTexturePreviewView
+                android:id="@+id/texturepreview"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:layout_alignParentRight="true"/>
+
+
+            <TextView
+                android:id="@+id/tv_display"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1.1"
+                android:layout_gravity="center|left"
+                android:gravity="center"
+                android:textSize="@dimen/dp_35"
+                android:textColor="@color/blue1"
+                tools:text="应付金额:1000"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.zhpan.bannerview.BannerViewPager
+        android:id="@+id/ad_banner"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

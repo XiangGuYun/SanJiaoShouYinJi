@@ -1,0 +1,85 @@
+A3 10 35 07 00 9A 06 72 06 72 00 79 
+A3 10 3C 0B 05 03 89 8B 92 94 03 00 00 00 00 3F 
+A3 10 47 0B 00 26 00 00 00 26 00 00 00 00 47 98 
+A3 10 52 0B 00 00 00 00 00 00 10 AA 00 00 00 CA 
+A3 10 5D 05
+
+A3 设备地址 ｜10 功能码 ｜10 寄存器地址 ｜03 寄存器字节数n ｜03 06 00 DATA n (n<=8) ｜CF 校验和 ｜
+
+void Uart_InterruptReceive(void)//中断接收处理
+{
+
+	unsigned char ReBuf;
+	unsigned char DataLength=0;	
+	//unsigned char State;
+	//State=USART1->SR;                              //读状态寄存器
+	//ReBuf=USART_ReceiveData8(USART1);             //接收数据	
+	//UART0CONH&=Obit0;  Sing
+	//ReBuf=UDATA0;  Sing 
+	ReBuf = USI0DR;
+	r_Uart_Length=ReBuf;
+  //判断是否主机发送的数据
+	if(b_Uart_Receive_Start==0)
+	{	
+		if(ReBuf==c_Uart_Head)							//判断是否为头码
+		{
+			b_Uart_Receive_Start=1;						//接收到第一个数据跟头码相比较，相等时置标志位		
+		}
+		r_Uart_ReCout=0;
+	}	
+   //开始接收数据
+	if(b_Uart_Receive_Start)					//接收头码正确时开始接收并保存数据
+	{		
+		r_Uart_RecBuff[r_Uart_ReCout]=ReBuf;	//保存数据到接收缓冲
+		r_Uart_ReCout++;   				 //接收计数器加1
+    //接收数据超出最大长度取消	
+		if(r_Uart_ReCout>=c_Uart_MaxNum	) //接收的长度为大于16个直接去掉所接收的数据
+		{
+			b_Uart_Receive_Start=0;	    			
+		}
+		
+//计数接收到的数据长度		
+		if(r_Uart_ReCout>=c_Uart_MinNum)  //接收到的数据如果大于最小数据长度时开始进行CRC校验
+		{
+			switch (r_Uart_RecBuff[1])      //按照功能码确定数据长度
+			{
+				case 0x03:		//接收到读取命令					
+                                DataLength=0x05;	//读命令长度为6个字节包括CRC码					
+                                break; 				
+				case 0x10:		//接收到写命令
+			
+				DataLength=5+r_Uart_RecBuff[3]; //写入时字节长度
+				if (DataLength>16)        	//长度超出时做错误处理
+				{
+					b_Uart_Receive_Start=0;
+				}
+			
+				break;
+				default:                //若命令不对则不进行处理			
+				b_Uart_Receive_Start=0;	
+			  	b_Uart_Receive_End=0;	
+
+				break;					
+			}
+		
+//若长度匹配时进行校验和计算
+			if(r_Uart_ReCout>=DataLength&&b_Uart_Receive_Start)
+			{
+				DataLength--;					
+				if(r_Uart_RecBuff[DataLength]==CheckSum(r_Uart_RecBuff,DataLength))
+				{				
+					b_Uart_Receive_End=1;	//校验成功						                  		
+					r_Uart_CommErrorCnt=0;		
+          //USI0CR2&=~0x04;   //Disable  Receive
+				}
+				else
+				{
+					b_Uart_Receive_End=0;	//否则接收失败					
+				}
+				b_Uart_Receive_Start=0;					
+			}			
+		}		
+	}
+	
+}
+/*

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_200"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/dp_4"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/orderdatadialog_close"
+        android:layout_gravity="right"
+        android:layout_width="@dimen/dp_50"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:text="关闭"
+        android:background="@drawable/system_out">
+    </Button>
+    <com.kproduce.roundcorners.RoundLinearLayout
+        app:rRadius="@dimen/dp_10"
+        android:background="@color/while1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <com.github.mikephil.charting.charts.BarChart
+                android:id="@+id/orderdatadialog_chart"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.github.mikephil.charting.charts.BarChart>
+        </FrameLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/orderdatadialog_recy"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </com.kproduce.roundcorners.RoundLinearLayout>
+</LinearLayout>
