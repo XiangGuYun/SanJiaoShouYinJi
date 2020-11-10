@@ -6,8 +6,7 @@
     android:visibility="gone"
     android:id="@+id/fl_meal">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:id="@+id/ll_parent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -188,7 +187,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:divider="@color/stroke"
-                        android:dividerHeight="1px"></ListView>
+                        android:dividerHeight="1px"/>
                 </FrameLayout>
             </LinearLayout>
         </LinearLayout>
@@ -262,6 +261,7 @@
 
             <TextView
                 android:id="@+id/tv_jiedan"
+                android:visibility="gone"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"

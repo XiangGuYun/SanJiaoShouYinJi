@@ -125,6 +125,7 @@ public class MainActivity extends me.yokeyword.fragmentation.SupportActivity imp
     public boolean isJieDan = true;
     private Badge badge1;
     private Badge badge2;
+    private LeftListAdapter leftListAdapter;
 
     public void showShouYin() {
         findViewById(R.id.fl_meal).setVisibility(View.GONE);
@@ -260,6 +261,9 @@ public class MainActivity extends me.yokeyword.fragmentation.SupportActivity imp
                 badgeNumber1 = 0;
                 badge1.setBadgeNumber(badgeNumber1);
                 badge2.setBadgeNumber(badgeNumber1);
+            case 0x1111:
+                clearMealOrder();
+                break;
             default:
         }
 
@@ -324,7 +328,7 @@ public class MainActivity extends me.yokeyword.fragmentation.SupportActivity imp
     }
 
     private void initOrderDishListView() {
-        LeftListAdapter leftListAdapter = new LeftListAdapter(this, listDishOrder,
+        leftListAdapter = new LeftListAdapter(this, listDishOrder,
                 position -> delSelectedOrderDish(position));
         ((ListView) findViewById(R.id.listview_left)).setAdapter(leftListAdapter);
     }
@@ -383,6 +387,13 @@ public class MainActivity extends me.yokeyword.fragmentation.SupportActivity imp
         tv(R.id.tv_total).setText("总计¥" + MoneyUtils.changeF2Y(totalMoney * (selectedIndex + 1)));
         priceForPay = Double.parseDouble(MoneyUtils.changeF2Y(totalMoney));
         tv(R.id.tv_count1).setText("数量" + count * (selectedIndex + 1));
+    }
+
+    public void clearMealOrder(){
+        listDishOrder.clear();
+        leftListAdapter.notifyDataSetChanged();
+        tv(R.id.tv_total).setText("总计¥0");
+        tv(R.id.tv_count1).setText("数量");
     }
 
     /**

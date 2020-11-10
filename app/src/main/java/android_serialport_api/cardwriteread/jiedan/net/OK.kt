@@ -27,7 +27,7 @@ object OK {
         crossinline onSuccess: (data: T) -> Unit, //成功回调
         vararg pairs: Pair<String, String>//参数
     ) {
-        Log.d(TAG, "url is $url");
+        Log.d(TAG, "");
         val mapJson = Gson().toJson(HashMap(pairs.toMap()).filterValues { it != OPTIONAL })
         val builder = OkHttpUtils
             .postString()
@@ -35,7 +35,7 @@ object OK {
             .content(mapJson)
             .mediaType(MediaType.parse(MEDIA_TYPE))
 
-        Log.d(TAG, "mapJson is $mapJson");
+        Log.d(TAG, "");
 
         builder.build()
             .connTimeOut(6000)
@@ -49,8 +49,11 @@ object OK {
                 }
 
                 override fun onResponse(response: String?, id: Int) {
-                    Log.d(TAG, response!!)
+                    Log.d(TAG, "url is $url"+"\nmapJson is $mapJson+${response!!}")
+
                     onSuccess.invoke(Gson().fromJson(response, T::class.java))
+
+
                 }
             })
 
@@ -72,7 +75,6 @@ object OK {
                 }
 
                 override fun onResponse(response: String?, id: Int) {
-                    Log.d(TAG, response!!)
                     onSuccess.invoke(Gson().fromJson(response, T::class.java))
                 }
             })

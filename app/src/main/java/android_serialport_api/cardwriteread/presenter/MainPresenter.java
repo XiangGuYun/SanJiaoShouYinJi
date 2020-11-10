@@ -42,8 +42,10 @@ import android_serialport_api.cardwriteread.baiduface.baidumodel.User;
 import android_serialport_api.cardwriteread.baiduface.baiduutils.ToastUtils;
 import android_serialport_api.cardwriteread.base.BasePresenter;
 import android_serialport_api.cardwriteread.contract.MainContract;
+
 import com.yp.baselib.utils.SPUtils;
 
+import android_serialport_api.cardwriteread.meal.BusUtils;
 import android_serialport_api.cardwriteread.model.DataJsonCallBackV2;
 import android_serialport_api.cardwriteread.model.MainModel;
 import android_serialport_api.cardwriteread.net.Apis;
@@ -240,6 +242,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
             }
             if(MainActivity.isMeal){
                 mView.closePayDialog(MainActivity.isMeal);
+                BusUtils.sendMsg(0x1111);
             }
             ispayfinsh = true;
             //isPresentationPause = false;
@@ -543,7 +546,10 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                         if (!details.equals("")) {
                             mPresentation.uploadDetails(TextUtils.isEmpty(str) ? details : str + "\n" + details);
                         }
-                        ;
+                        if(sta != 200){
+                            String message = JSONObject.parseObject(s).getString("message");
+                            mPresentation.uploadDetails(message);
+                        }
                         if (countDownTimer != null) {
                             countDownTimer.cancel();
                         }
