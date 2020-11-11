@@ -180,7 +180,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                         }
                         mView.uploadPayDialogText(username + "\n支付成功");
                         //根据卡号查询余额显示
-                        queryBanlce(rep.getJSONObject("data").getString("orderNo"), mPresentation.getDetailsText());
+                        queryBanlce(rep.getJSONObject("data").getString("cardNo"), mPresentation.getDetailsText());
                         //保存订单记录到本地数据库
                         addOrder(rep.getJSONObject("data").getString("payType"), String.valueOf(money), rep.getJSONObject("data").getString("orderNo"));
                         //更新订单界面
