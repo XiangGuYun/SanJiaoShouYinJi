@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -135,9 +136,8 @@ public class SyncUserFaceServiceV3 {
                         return;
                     }
 
-                    if (loadlist.size() == 0 || users == null) {
-                        return;
-                    }
+                    Log.d("Test123", loadlist.size()+" "+users.size());
+
                     //本地数据库为0的时候显示弹窗让用户等待初次数据加载
                     //这样做是因为本地什么数据都没有让用户操作也没意思就让用户等着把 能节约操作性能 又能告诉用户加载人脸数据中
                     //时间计算一个数据大概需要四秒时间入库
@@ -161,15 +161,21 @@ public class SyncUserFaceServiceV3 {
     private void next() {
         Observable.create((ObservableOnSubscribe<Integer>) emitter -> {
             for (int i = 0; i < loadlist.size(); i++) {
+                Log.d("Test123", "正在遍历");
                 final CustomerInfoV3 customerInfoV3 = loadlist.get(i);
                 User user = checkUserIsId(String.valueOf(customerInfoV3.getFaceId()), users);
                 if (user == null) {
                     //本地不存在此用户
+                    Log.d("TestTime", "开始加脸");
+                    long time1 = System.currentTimeMillis();
                     addUserFace(customerInfoV3.getFaceId(), customerInfoV3.getFaceUrl(), customerInfoV3.getCustomerName(),
                             customerInfoV3.getCustomerId());
+                    Log.d("TestTime", "共耗时："+(System.currentTimeMillis()-time1)+"ms");
                 }
                 emitter.onNext(i);
             }
+            Log.d("Test123", "遍历完成");
+
             emitter.onNext(-1);
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -185,18 +191,21 @@ public class SyncUserFaceServiceV3 {
     }
 
     //添加人脸数据
-    private void addUserFace(final String id, final String url, final String name, final String coustomId) {
-        System.out.println("id=" + id + "\nurl=" + url + "\nname=" + name);
+    private void addUserFace(final String id, final String oldUrl, final String name, final String coustomId) {
+        String newUrl = oldUrl.replace("http://192.168.0.106", "http://images.yunpengai.com");
         try {
             byte[] feature = new byte[512];
-            float ret = FaceApi.getInstance().getFeature(UrlToBitmap(url), feature,
+
+            float ret = FaceApi.getInstance().getFeature(UrlToBitmap(newUrl), feature,
                     BDFaceSDKCommon.FeatureType.BDFACE_FEATURE_TYPE_LIVE_PHOTO);
+
             System.out.println("ret:" + ret);
             if (ret == 128) {
                 String imageName = groupId + "-" + id + ".jpg";
                 // 注册到人脸库
                 boolean isSuccess = FaceApi.getInstance().registerUserIntoDBmanager(groupId, id, imageName,
-                        name + "-" + id + "-" + coustomId + "-" + url, feature);
+                        name + "-" + id + "-" + coustomId + "-" + newUrl, feature);
+
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -431,17 +440,23 @@ public class SyncUserFaceServiceV3 {
         NetWorkUtils.postHttpRequest(true, params, new HttpCallBackV2() {
             @Override
             public void onSuccess(String result) throws JSONException {
+                Log.d("TestNet", "onSuccess "+params.getUri()+"\n"+params.getBodyContent()+"\n"+result);
+
                 int code = new JSONObject(result).getInt("code");
                 callBack.callback(code == 200 ? 0 : 2, result);
             }
 
             @Override
             public void onCancelled(String msg) throws JSONException {
+                Log.d("TestNet", "cancel "+params.getUri()+"\n"+params.getBodyContent()+"\n"+msg);
+
                 callBack.callback(1, msg);
             }
 
             @Override
             public void onError(String error) throws JSONException {
+                Log.d("TestNet", "error "+params.getUri()+"\n"+params.getBodyContent()+"\n"+error);
+
                 callBack.callback(2, error);
             }
 

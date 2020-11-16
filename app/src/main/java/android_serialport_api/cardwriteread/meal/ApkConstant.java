@@ -3,6 +3,8 @@ package android_serialport_api.cardwriteread.meal;
 import android.text.TextUtils;
 
 import android_serialport_api.cardwriteread.MyApplication;
+import android_serialport_api.cardwriteread.net.Apis;
+
 import com.yp.baselib.utils.SPUtils;
 
 
@@ -13,7 +15,7 @@ import com.yp.baselib.utils.SPUtils;
 public class ApkConstant {
     public static final String OFFLINE_IP = "http://123.206.224.209:9010";
 //    public static final String ONLINE_IP = "https://binguoai.com";
-    public static  String ONLINE_IP = getIpAddress();
+    public static  String ONLINE_IP = Apis.OffLineIp;//getIpAddress();
     public static  String GETSHANGMIORDER = ONLINE_IP+"/api/order/getShangMiOrder/";
     public static String CUSTOMER = ONLINE_IP+"/api/customer";
     public static String CREATESHANGMI = ONLINE_IP+"/api/order/createShangMi";

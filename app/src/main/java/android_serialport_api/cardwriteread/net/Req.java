@@ -49,7 +49,6 @@ public class Req {
                 AllCaiTypeModel allCaiTypeModel = JSONObject.parseObject(result,AllCaiTypeModel.class);
                 if (allCaiTypeModel.getCode() == 200){
                     List<AllCaiTypeModel.DataBean.ResultsBean> resultsBeanList = allCaiTypeModel.getData().getResults();
-//                    bindAllCaiTypeData(resultsBeanList);
                     callback.callback(resultsBeanList);
                 }else{
                     ToastUtils.toast(allCaiTypeModel.getMessage());

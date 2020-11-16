@@ -36,7 +36,6 @@ public class NetWorkUtils {
     /**
      * http get请求
      *
-     * @param params   请求参数 get请求使用 addQueryStringParameter方法添加参数
      * @param callback 回调对象
      */
     public static Callback.Cancelable getHttpRequest(Activity activity, boolean isShowDialog, RequestParams params, final HttpCallBackV2 callback) {
@@ -85,6 +84,7 @@ public class NetWorkUtils {
 
         params.setSslSocketFactory(sslContext.getSocketFactory());
 
+        RequestParams finalParams = params;
         return x.http().request(method, params, new Callback.CommonCallback<String>() {
 
             @Override
@@ -99,6 +99,7 @@ public class NetWorkUtils {
 
             @Override
             public void onError(Throwable arg0, boolean arg1) {
+                Log.d("TestNet", finalParams.getUri()+"\n"+finalParams.getBodyContent()+"\n"+arg0.getLocalizedMessage());
                 if (dialog != null) dialog.cancel();
                 try {
                     callback.onError(arg0.getMessage());
@@ -109,6 +110,8 @@ public class NetWorkUtils {
 
             @Override
             public void onSuccess(String result) {
+                if(!finalParams.getUri().contains("syncData"))
+                    Log.e("TestNet", finalParams.getUri()+"\n"+finalParams.getBodyContent()+"\n"+result);
                 if (dialog != null) dialog.cancel();
                 ;
                 if (result == null) {

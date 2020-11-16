@@ -126,6 +126,8 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
      */
     private boolean isFacePay = true;
 
+    private String cardNo = "";
+
     /**
      * 副屏
      */
@@ -180,7 +182,9 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
                         }
                         mView.uploadPayDialogText(username + "\n支付成功");
                         //根据卡号查询余额显示
-                        queryBanlce(rep.getJSONObject("data").getString("cardNo"), mPresentation.getDetailsText());
+                        if(!isFacePay){
+                            queryBanlce(cardNo, mPresentation.getDetailsText());
+                        }
                         //保存订单记录到本地数据库
                         addOrder(rep.getJSONObject("data").getString("payType"), String.valueOf(money), rep.getJSONObject("data").getString("orderNo"));
                         //更新订单界面
@@ -507,6 +511,7 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
             shangMiOrderRequest.setCashierDeskID(Constant.cashierDeskId);
             BigDecimal priceInCent = new BigDecimal(String.valueOf(money)).multiply(new BigDecimal(100));
             shangMiOrderRequest.setAccountBalance(priceInCent.longValue());
+            cardNo = nfc;
             doPay(shangMiOrderRequest);
         } catch (Exception e) {
             mView.toast("CardPay 刷卡支付操作错误", 0);
@@ -518,9 +523,10 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
     //s 为附属字段 如果传了则直接append再后面 如果为空则不处理
     private void queryBanlce(String nfc, final String str) {
         try {
-            if (TextUtils.isEmpty(nfc)) {
+            if (TextUtils.isEmpty(nfc) || nfc.length() != 32) {
                 return;
             }
+            Log.d("Test", "NFC is "+nfc);
             GetBalanceRequest getBalanceRequest = new GetBalanceRequest();
             getBalanceRequest.setCardNo(nfc.toUpperCase());
             getBalanceRequest.setShopId(Constant.shopId);
@@ -528,45 +534,42 @@ public class MainPresenter extends BasePresenter<MainContract.View> implements M
             RequestParams params = new RequestParams(Apis.OffLineIp + Apis.GetBanlance);
             params.setAsJsonContent(true);
             params.setBodyContent(new Gson().toJson(getBalanceRequest));
-            mainModel.pay(mView.getActivity(), params, new DataJsonCallBackV2() {
-                @Override
-                public void callback(int code, String s) {
-                    //{"code":200,"pageCount":0,"pageSize":100,"message":"SUCCESS","data":{"username":"邹焕鑫","balance":"199999878300"}}
-                    int sta = JSONObject.parseObject(s).getInteger("code");
-                    String details = "";
-                    try {
-                        if (code == 0 && sta == 200) {
-                            //读取卡片余额成功
-                            GetBalanceResponse getBalanceResponse = JSONObject.parseObject(s, GetBalanceResponse.class);
-                            if (getBalanceResponse.getData().getUsername() != null) {
-                                String str = String.valueOf((Integer.parseInt(getBalanceResponse.getData().getBalance()) * 0.01));
-                                details = "姓名:" + NameToStar(getBalanceResponse.getData().getUsername()) + "\n余额:" + str;
-                            }
+            mainModel.pay(mView.getActivity(), params, (code, s) -> {
+                //{"code":200,"pageCount":0,"pageSize":100,"message":"SUCCESS","data":{"username":"邹焕鑫","balance":"199999878300"}}
+                int sta = JSONObject.parseObject(s).getInteger("code");
+                String details = "";
+                try {
+                    if (code == 0 && sta == 200) {
+                        //读取卡片余额成功
+                        GetBalanceResponse getBalanceResponse = JSONObject.parseObject(s, GetBalanceResponse.class);
+                        if (getBalanceResponse.getData().getUsername() != null) {
+                            String str1 = String.valueOf((Integer.parseInt(getBalanceResponse.getData().getBalance()) * 0.01));
+                            details = "姓名:" + NameToStar(getBalanceResponse.getData().getUsername()) + "\n余额:" + str1;
                         }
-                        if (!details.equals("")) {
-                            mPresentation.uploadDetails(TextUtils.isEmpty(str) ? details : str + "\n" + details);
-                        }
-                        if(sta != 200){
-                            String message = JSONObject.parseObject(s).getString("message");
-                            mPresentation.uploadDetails(message);
-                        }
-                        if (countDownTimer != null) {
-                            countDownTimer.cancel();
-                        }
-                        countDownTimer = new CountDownTimer(3000, 3000) {
-                            @Override
-                            public void onTick(long millisUntilFinished) {
-
-                            }
-
-                            @Override
-                            public void onFinish() {
-                                mPresentation.uploadDetails("");
-                            }
-                        }.start();
-                    } catch (Exception e) {
-                        e.printStackTrace();
                     }
+                    if (!details.equals("")) {
+                        mPresentation.uploadDetails(details);
+                    }
+                    if(sta != 200){
+                        String message = JSONObject.parseObject(s).getString("message");
+                        mPresentation.uploadDetails(message);
+                    }
+                    if (countDownTimer != null) {
+                        countDownTimer.cancel();
+                    }
+                    countDownTimer = new CountDownTimer(3000, 3000) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            mPresentation.uploadDetails("");
+                        }
+                    }.start();
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             });
         } catch (Exception e) {
